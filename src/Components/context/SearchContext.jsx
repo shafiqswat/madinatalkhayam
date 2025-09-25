@@ -1,4 +1,5 @@
 /** @format */
+"use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { usePosts } from "../../Context/postContext";
 

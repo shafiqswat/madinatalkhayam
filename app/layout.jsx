@@ -1,6 +1,5 @@
 /** @format */
 "use client";
-
 import React from "react";
 import "typicons.font";
 import "../src/index.css";

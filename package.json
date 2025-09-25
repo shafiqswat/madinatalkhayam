@@ -17,9 +17,6 @@
     "react-helmet": "^6.1.0",
     "react-leaflet": "^4.2.1",
     "react-marquee-slider": "^1.1.5",
-    "react-router": "^6.25.1",
-    "react-router-dom": "^6.25.1",
-    "react-scripts": "5.0.1",
     "sitemap": "^8.0.0",
     "styled-components": "^6.1.11",
     "typicons.font": "^2.1.2",
@@ -30,10 +27,7 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "cra:start": "react-scripts start",
-    "cra:build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "echo 'no tests'"
   },
   "eslintConfig": {
     "extends": [
