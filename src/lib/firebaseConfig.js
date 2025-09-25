@@ -15,18 +15,11 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize app once, avoid issues during SSR/SSG
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-// Feature-flag Auth: disabled by default for Vercel deployment using only Firestore
-const enableAuth = process.env.NEXT_PUBLIC_ENABLE_AUTH === "true";
-export const auth =
-  typeof window !== "undefined" && enableAuth ? getAuth(app) : null;
+export const auth = typeof window !== "undefined" ? getAuth(app) : null;
 
-// Accessing Firestore on the server with the web SDK is not required during build
-// Consumers should import and use in client contexts only
 export const firestore =
   typeof window !== "undefined" ? getFirestore(app) : null;
 
-// Messaging intentionally not initialized to prevent Installations from running
 export default app;

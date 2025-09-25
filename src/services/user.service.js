@@ -6,13 +6,30 @@ const OWNER_EMAIL = process.env.NEXT_PUBLIC_OWNER_EMAIL;
 
 export const isOwner = (user) => {
   if (!user) return false;
-  return !!OWNER_EMAIL && user.email === OWNER_EMAIL;
+  // If no owner email configured, treat any signed-in user as owner
+  if (!OWNER_EMAIL) return true;
+  return user.email === OWNER_EMAIL;
 };
 
 export const signInOwner = async (email, password) => {
   if (!auth) throw new Error("Auth is not available in this environment");
   const { signInWithEmailAndPassword } = await import("firebase/auth");
-  const credential = await signInWithEmailAndPassword(auth, email, password);
+  let credential;
+  try {
+    credential = await signInWithEmailAndPassword(auth, email, password);
+  } catch (err) {
+    const code = err?.code || "auth/unknown";
+    const messageMap = {
+      "auth/invalid-email": "البريد الإلكتروني غير صالح",
+      "auth/user-disabled": "تم تعطيل هذا الحساب",
+      "auth/user-not-found": "المستخدم غير موجود",
+      "auth/wrong-password": "كلمة المرور غير صحيحة",
+      "auth/too-many-requests": "محاولات كثيرة. حاول لاحقًا",
+    };
+    const error = new Error(messageMap[code] || "فشل تسجيل الدخول");
+    error.code = code;
+    throw error;
+  }
   const user = credential.user;
   if (!isOwner(user)) {
     // Immediately sign out non-owner accounts for safety
@@ -31,11 +48,25 @@ export const signOutUser = async () => {
 };
 
 export const onAuthStateChangedListener = (callback) => {
-  if (!auth) return () => {};
-  // Dynamically import so that firebase/auth is not bundled when disabled
-  return import("firebase/auth").then(({ onAuthStateChanged }) =>
-    onAuthStateChanged(auth, callback)
-  );
+  if (!auth) {
+    // Auth disabled: immediately unblock UI and report no user
+    try {
+      callback(null);
+    } catch (_) {}
+    return () => {};
+  }
+  // Always return a sync cleanup function; populate it once import resolves
+  let unsubscribe = () => {};
+  import("firebase/auth").then(({ onAuthStateChanged }) => {
+    try {
+      unsubscribe = onAuthStateChanged(auth, callback) || (() => {});
+    } catch (_) {}
+  });
+  return () => {
+    try {
+      unsubscribe();
+    } catch (_) {}
+  };
 };
 
 export const getCurrentUser = () => (auth ? auth.currentUser : null);
