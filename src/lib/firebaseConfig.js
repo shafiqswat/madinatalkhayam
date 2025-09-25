@@ -4,7 +4,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+// Messaging is disabled for now to avoid initializing Installations when not needed
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -28,6 +28,5 @@ export const auth =
 export const firestore =
   typeof window !== "undefined" ? getFirestore(app) : null;
 
-const messaging = typeof window !== "undefined" ? getMessaging(app) : null;
-export { messaging, getToken, onMessage };
+// Messaging intentionally not initialized to prevent Installations from running
 export default app;
