@@ -16,7 +16,12 @@ import {
 
 const POSTS_COLLECTION = "posts";
 
-const postsCol = collection(firestore, POSTS_COLLECTION);
+// Defer collection reference to call time to avoid accessing firestore during SSG/SSR
+const getPostsCollection = () => {
+  if (!firestore)
+    throw new Error("Firestore is not available in this environment");
+  return collection(firestore, POSTS_COLLECTION);
+};
 
 export const createPost = async (post) => {
   const payload = {
@@ -27,18 +32,20 @@ export const createPost = async (post) => {
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   };
-  const ref = await addDoc(postsCol, payload);
+  const ref = await addDoc(getPostsCollection(), payload);
   const snapshot = await getDoc(ref);
   return { id: ref.id, ...snapshot.data() };
 };
 
 export const listPosts = async () => {
-  const q = query(postsCol, orderBy("createdAt", "desc"));
+  const q = query(getPostsCollection(), orderBy("createdAt", "desc"));
   const snap = await getDocs(q);
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 };
 
 export const getPost = async (id) => {
+  if (!firestore)
+    throw new Error("Firestore is not available in this environment");
   const ref = doc(firestore, POSTS_COLLECTION, id);
   const snap = await getDoc(ref);
   if (!snap.exists()) return null;
@@ -46,6 +53,8 @@ export const getPost = async (id) => {
 };
 
 export const updatePost = async (id, updates) => {
+  if (!firestore)
+    throw new Error("Firestore is not available in this environment");
   const ref = doc(firestore, POSTS_COLLECTION, id);
   await updateDoc(ref, { ...updates, updatedAt: serverTimestamp() });
   const snap = await getDoc(ref);
@@ -53,6 +62,8 @@ export const updatePost = async (id, updates) => {
 };
 
 export const deletePostById = async (id) => {
+  if (!firestore)
+    throw new Error("Firestore is not available in this environment");
   const ref = doc(firestore, POSTS_COLLECTION, id);
   await deleteDoc(ref);
 };

@@ -1,7 +1,7 @@
 /** @format */
 
 // lib/firebaseConfig.js
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
@@ -15,10 +15,17 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+// Initialize app once, avoid issues during SSR/SSG
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
-export const firestore = getFirestore(app);
+// Only access Auth on the client to avoid build-time issues
+export const auth = typeof window !== "undefined" ? getAuth(app) : null;
+
+// Accessing Firestore on the server with the web SDK is not required during build
+// Consumers should import and use in client contexts only
+export const firestore =
+  typeof window !== "undefined" ? getFirestore(app) : null;
+
 const messaging = typeof window !== "undefined" ? getMessaging(app) : null;
 export { messaging, getToken, onMessage };
 export default app;

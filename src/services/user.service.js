@@ -15,6 +15,7 @@ export const isOwner = (user) => {
 };
 
 export const signInOwner = async (email, password) => {
+  if (!auth) throw new Error("Auth is not available in this environment");
   const credential = await signInWithEmailAndPassword(auth, email, password);
   const user = credential.user;
   if (!isOwner(user)) {
@@ -28,13 +29,16 @@ export const signInOwner = async (email, password) => {
 };
 
 export const signOutUser = async () => {
+  if (!auth) return;
   await signOut(auth);
 };
 
-export const onAuthStateChangedListener = (callback) =>
-  onAuthStateChanged(auth, callback);
+export const onAuthStateChangedListener = (callback) => {
+  if (!auth) return () => {};
+  return onAuthStateChanged(auth, callback);
+};
 
-export const getCurrentUser = () => auth.currentUser;
+export const getCurrentUser = () => (auth ? auth.currentUser : null);
 
 export default {
   isOwner,
