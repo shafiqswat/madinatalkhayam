@@ -24,9 +24,129 @@ export default function RootLayout({ children }) {
       lang='ar'
       dir='rtl'>
       <head>
+        <meta
+          name='description'
+          content='مظلات وسواتر وجلسات وبرجولات وخيام ملكي في القصيم بريدة عنيزة. تنفيذ وتركيب بجودة عالية وخبرة طويلة. اتصل الآن 0500173090.'
+        />
+        <meta
+          name='keywords'
+          content='مدينة الخيام المظلات, madinatalkhayam, khayam, tents, مظلات, سواتر, جلسات, برجولات, خيام, القصيم, بريدة, عنيزة, الرس, تنفيذ, تركيب, madinat al khayam, tents in qassim'
+        />
+        <meta
+          name='theme-color'
+          content='#8e003b'
+        />
+        <link
+          rel='canonical'
+          href='/'
+        />
+        <meta
+          property='og:locale'
+          content='ar_SA'
+        />
+        <meta
+          property='og:type'
+          content='website'
+        />
+        <meta
+          property='og:site_name'
+          content='مدينة الخيام المظلات | madinatalkhayam'
+        />
+        <meta
+          property='og:title'
+          content='مدينة الخيام المظلات | مظلات وسواتر القصيم بريدة عنيزة'
+        />
+        <meta
+          property='og:description'
+          content='أفضل حلول المظلات والسواتر والبرجولات والخيام الملكي في منطقة القصيم والمدن المحيطة.'
+        />
+        <meta
+          property='og:image'
+          content='/images/slider1.jpg'
+        />
+        <meta
+          property='og:url'
+          content='https://madinatalkhayam.com/'
+        />
+        <meta
+          name='twitter:card'
+          content='summary_large_image'
+        />
+        <meta
+          name='twitter:title'
+          content='مدينة الخيام المظلات | madinatalkhayam | khayam | tents'
+        />
+        <meta
+          name='twitter:description'
+          content='حلول مظلات وسواتر في القصيم والمدن المحيطة.'
+        />
+        <meta
+          name='twitter:image'
+          content='/images/slider1.jpg'
+        />
         <link
           rel='stylesheet'
           href='/font%20icons/typicons.min.css'
+        />
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: "مدينة الخيام المظلات",
+              alternateName: [
+                "madinatalkhayam",
+                "Madinaat Al Khayam",
+                "khayam",
+                "tents",
+              ],
+              image: ["/images/slider1.jpg"],
+              url: "https://madinatalkhayam.com/",
+              telephone: "+966500173090",
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "SA",
+                addressRegion: "القصيم",
+              },
+              areaServed: [
+                { "@type": "AdministrativeArea", name: "القصيم" },
+                { "@type": "City", name: "بريدة" },
+                { "@type": "City", name: "عنيزة" },
+                { "@type": "City", name: "الرس" },
+              ],
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: 26.32,
+                longitude: 43.96,
+              },
+              openingHours: "Mo-Su 08:00-22:00",
+              sameAs: [
+                "https://madinatalkhayam.com/",
+                "https://www.instagram.com/mazlatswater/",
+                "https://www.facebook.com/share/E42VrQoFkhzNf7Fx/?mibextid=qi2Omg",
+              ],
+            }),
+          }}
+        />
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "مدينة الخيام المظلات",
+              alternateName: ["madinatalkhayam", "khayam", "tents"],
+              url: "https://madinatalkhayam.com/",
+              inLanguage: "ar",
+              potentialAction: {
+                "@type": "SearchAction",
+                target:
+                  "https://madinatalkhayam.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
         />
       </head>
       <body>

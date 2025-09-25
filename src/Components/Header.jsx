@@ -3,6 +3,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import SearchComponent from "./Search";
 
@@ -117,19 +118,24 @@ function Header() {
         <div className='header flex-row-reverse'>
           <div className='header-logo header-logo-lc-mc mc-35 lc-25 sc-hide mc-show lc-show'>
             <Link href='/'>
-              <img
+              <Image
                 id='image-lc'
                 src='/images/logo.jpg'
                 alt='logo'
+                width={320}
+                height={80}
+                priority
               />
             </Link>
           </div>
           <div className='header-logo sc-120 sc-show mc-hide lc-hide'>
             <Link href='/'>
-              <img
+              <Image
                 id='image-sc'
                 src='/images/logo.jpg'
                 alt='القصيم بريده عنيزه  - سواتر الرياض'
+                width={320}
+                height={80}
               />
             </Link>
           </div>

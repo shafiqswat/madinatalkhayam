@@ -1,11 +1,11 @@
 /** @format */
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSearch } from "../../src/Components/context/SearchContext";
 
-export default function Page() {
+function SearchPageContent() {
   const searchParams = useSearchParams();
   const { searchResults } = useSearch();
   const query = searchParams.get("q") || "";
@@ -34,5 +34,13 @@ export default function Page() {
         <p>Please enter a search term.</p>
       )}
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading search...</div>}>
+      <SearchPageContent />
+    </Suspense>
   );
 }

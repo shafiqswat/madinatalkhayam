@@ -13,8 +13,7 @@ export default function AdminPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
-  const [span, setSpan] = useState("");
-  const [description, setDescription] = useState("");
+
   const [imageFile, setImageFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -41,10 +40,8 @@ export default function AdminPage() {
     try {
       setSubmitting(true);
       const imageUrl = await uploadToCloudinary(imageFile);
-      await createPost({ title, span, description, imageUrl });
+      await createPost({ title, span: "", description: "", imageUrl });
       setTitle("");
-      setSpan("");
-      setDescription("");
       setImageFile(null);
       setSuccess("تم إنشاء المنشور بنجاح");
     } catch (err) {
@@ -108,18 +105,6 @@ export default function AdminPage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-          />
-          <Label>النص المختصر على البطاقة</Label>
-          <Input
-            value={span}
-            onChange={(e) => setSpan(e.target.value)}
-            required
-          />
-          <Label>الوصف</Label>
-          <Textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={5}
           />
           <Label>الصورة</Label>
           <Input
