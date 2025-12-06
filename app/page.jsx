@@ -1,7 +1,7 @@
 /** @format */
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Slider from "../src/Components/layout/slider";
 import CardComponent from "../src/Components/layout/Card";
@@ -10,76 +10,108 @@ import { usePosts } from "../src/Context/postContext";
 
 export default function Page() {
   const { posts, loading } = usePosts();
+  const [mounted, setMounted] = React.useState(false);
 
-  useEffect(() => {
-    document.title = "مدينةالخيام المظلات";
-    const metaDescription = document.createElement("meta");
-    metaDescription.name = "مظلات وسواتر القصيم";
-    metaDescription.content =
-      " للحدائق والأسطح والسيارات بخامات عالية جودة وبأفضل الخامات المستوردة   والمحلية، كما يوجد قماش بي في دي اف بتصاميم وأشكال حديثة وجديدة للأسطح   والحدائق، عليكم بالتواصل مع شركة حاتم للمقاولات لتركيب وتصميم وتنفيذ   أفضل وأجمل مظلات وسواتر، مظلات قماش للسيارات بأرقى وأجمل التصاميم  والأشكال الجذابة والرائعة. ";
-    document.head.appendChild(metaDescription);
+  // Prevent hydration mismatch by only rendering client-side content after mount
+  React.useEffect(() => {
+    setMounted(true);
+    // Update title and meta only on client
+    if (typeof window !== "undefined") {
+      document.title =
+        "الخيام المظلات | مدينة الخيام المظلات - أفضل المظلات والسواتر في القصيم بريدة عنيزة";
+      // Check if meta description already exists to avoid duplicates
+      let metaDescription = document.querySelector('meta[name="description"]');
+      if (!metaDescription) {
+        metaDescription = document.createElement("meta");
+        metaDescription.name = "description";
+        document.head.appendChild(metaDescription);
+      }
+      metaDescription.content =
+        "الخيام المظلات توفر أجود المظلات والسواتر والخيام الملكي في القصيم بريدة عنيزة الرس. مظلات سيارات، حدائق، مسابح، مداخل، مدارس، أسواق، مساجد. سواتر حديد، قماش، بلاستيك. جلسات وبرجولات. اتصل الآن 0500173090";
+    }
   }, []);
 
   return (
-    <main>
-      <h1 style={{ display: "none" }}>
-        مظلات وسواتر القصيم
-        <strong>
-          للحدائق والأسطح والسيارات بخامات عالية جودة وبأفضل الخامات المستوردة
-          والمحلية، كما يوجد قماش بي في دي اف بتصاميم وأشكال حديثة وجديدة للأسطح
-          والحدائق، عليكم بالتواصل مع شركة حاتم للمقاولات لتركيب وتصميم وتنفيذ
-          أفضل وأجمل مظلات وسواتر، مظلات قماش للسيارات بأرقى وأجمل التصاميم
-          والأشكال الجذابة والرائعة.
-        </strong>
-        <strong>
-          مدينة الخيام المظلات تفصيل خيام ملكي مظلات سواتر موقف سيارت مظلات
-          مدارس القصيم بريده عنيزه
-        </strong>
-      </h1>
-      <Slider />
-      <WhatsappImages>
-        <div className='ads-show'>
-          <div>
-            <a href='https://wa.me/966500173090'>
+    <main role='main'>
+      <article>
+        <header
+          style={{ textAlign: "center", margin: "2rem 0", padding: "0 1rem" }}>
+          <h1
+            style={{
+              fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
+              margin: "0 0 1rem 0",
+              color: "#8e003b",
+              fontWeight: "700",
+              lineHeight: "1.2",
+            }}>
+            الخيام المظلات - مدينة الخيام المظلات
+          </h1>
+          <p
+            style={{
+              fontSize: "clamp(1rem, 2.5vw, 1.2rem)",
+              color: "#555",
+              margin: "0",
+              lineHeight: "1.6",
+              maxWidth: "800px",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}>
+            أفضل المظلات والسواتر والخيام الملكي في القصيم بريدة عنيزة الرس.
+            مظلات سيارات، حدائق، مسابح، مداخل، مدارس، أسواق، مساجد. سواتر حديد،
+            قماش، بلاستيك. جلسات وبرجولات بخامات عالية الجودة.
+          </p>
+        </header>
+        <Slider />
+        <WhatsappImages>
+          <div className='ads-show'>
+            <div>
+              <a
+                href='https://wa.me/966500173090'
+                aria-label='اتصل بنا على واتساب'>
+                <img
+                  src='/images/whatsappImage1.gif'
+                  alt='واتساب - الخيام المظلات مدينة الخيام المظلات'
+                  loading='lazy'
+                />
+              </a>
+            </div>
+          </div>
+          <div className='ads-show'>
+            <a
+              href='https://wa.me/966500173090'
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label='اتصل بنا على واتساب'>
               <img
-                src='/images/whatsappImage1.gif'
-                alt='whatsappImage1'
+                src='/images/whatsappImage2.gif'
+                alt='واتساب - الخيام المظلات مدينة الخيام المظلات'
+                loading='lazy'
               />
             </a>
           </div>
-        </div>
-        <div className='ads-show'>
-          <a
-            href='https://wa.me/966500173090'
-            target='_blank'
-            rel='noopener noreferrer'>
-            <img
-              src='/images/whatsappImage2.gif'
-              alt='whatsappImage2'
-            />
-          </a>
-        </div>
-      </WhatsappImages>
-      <h1 style={{ display: "none" }}>الصفحة الرئيسية - متجرنا</h1>
-      {loading ? (
-        <>
-          {Array.from({ length: 6 }).map((_, index) => (
-            <CardSkeleton key={index} />
-          ))}
-        </>
-      ) : (
-        posts.map((item, index) => (
-          <CardComponent
-            key={item.id || index}
-            item={{
-              id: item.id,
-              cardImage: item.imageUrl,
-              cardTitle: item.title,
-              cardSpan: item.span,
-            }}
-          />
-        ))
-      )}
+        </WhatsappImages>
+        <section aria-label='منتجاتنا'>
+          {!mounted || loading ? (
+            <>
+              {Array.from({ length: 6 }).map((_, index) => (
+                <CardSkeleton key={index} />
+              ))}
+            </>
+          ) : (
+            posts.map((item, index) => (
+              <CardComponent
+                key={item.id || index}
+                item={{
+                  id: item.id,
+                  cardImage: item.imageUrl,
+                  cardTitle: item.title,
+                  cardSpan: item.span,
+                }}
+              />
+            ))
+          )}
+        </section>
+      </article>
     </main>
   );
 }

@@ -228,7 +228,7 @@ textarea:focus {
 }
 
 .socialicon {
-  background: url("/public/images/socialicon.png");
+  /* background: url("/images/socialicon.png"); */ /* Image not needed - using base64 icons */
   height: 32px;
   width: 32px;
   margin: 0 5px;

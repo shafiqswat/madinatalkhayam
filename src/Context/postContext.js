@@ -26,20 +26,28 @@ const PostContext = createContext({
 
 export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Start with true to match server state
+  const [mounted, setMounted] = useState(false);
 
   const refresh = async () => {
     setLoading(true);
     try {
       const data = await listPosts();
-      setPosts(data);
+      setPosts(data || []);
+    } catch (error) {
+      console.error("Error loading posts:", error);
+      setPosts([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    refresh();
+    setMounted(true);
+    // Only fetch on client side
+    if (typeof window !== "undefined") {
+      refresh();
+    }
   }, []);
 
   const createPost = async (post) => {

@@ -24,6 +24,9 @@ function Header() {
   };
 
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === "undefined") return;
+
     function calcWidth() {
       const siteMenuArea = document.querySelector("#site-menu-area");
       const more = document.querySelector("#site-menu-area .more");
@@ -70,50 +73,55 @@ function Header() {
     }
 
     function handleLinkClick() {
-      document.querySelector(".site-menu-float").style.display = "none";
+      const floatMenu = document.querySelector(".site-menu-float");
+      if (floatMenu) {
+        floatMenu.style.display = "none";
+      }
     }
 
+    // Store references for cleanup
+    let floatMenuLinks = null;
+    let animationFrameId = null;
+
     window.addEventListener("resize", handleResize);
-    calcWidth();
-    document
-      .querySelector(".site-menu")
-      .classList.remove("site-menu-prevent-overflow-onload");
 
-    const submenuLinks = document.querySelectorAll(
-      ".site-menu ul li:has(ul) > a"
-    );
-    submenuLinks.forEach((link) => link.classList.add("site-menu-has-sub"));
+    // Use requestAnimationFrame to ensure DOM is ready
+    animationFrameId = requestAnimationFrame(() => {
+      calcWidth();
+      const siteMenu = document.querySelector(".site-menu");
+      if (siteMenu) {
+        siteMenu.classList.remove("site-menu-prevent-overflow-onload");
+      }
 
-    const floatMenuLinks = document.querySelectorAll(
-      ".site-menu-float ul li a"
-    );
-    floatMenuLinks.forEach((link) => {
-      link.addEventListener("click", handleLinkClick);
+      const submenuLinks = document.querySelectorAll(
+        ".site-menu ul li:has(ul) > a"
+      );
+      submenuLinks.forEach((link) => link.classList.add("site-menu-has-sub"));
+
+      floatMenuLinks = document.querySelectorAll(".site-menu-float ul li a");
+      if (floatMenuLinks) {
+        floatMenuLinks.forEach((link) => {
+          link.addEventListener("click", handleLinkClick);
+        });
+      }
     });
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      floatMenuLinks.forEach((link) => {
-        link.removeEventListener("click", handleLinkClick);
-      });
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      if (floatMenuLinks) {
+        floatMenuLinks.forEach((link) => {
+          link.removeEventListener("click", handleLinkClick);
+        });
+      }
     };
   }, []);
   return (
-    <header className='header-wrapper'>
-      <h1 style={{ display: "none" }}>
-        مظلات وسواتر القصيم{" "}
-        <strong>
-          للحدائق والأسطح والسيارات بخامات عالية جودة وبأفضل الخامات المستوردة
-          والمحلية، كما يوجد قماش بي في دي اف بتصاميم وأشكال حديثة وجديدة للأسطح
-          والحدائق، عليكم بالتواصل مع شركة حاتم للمقاولات لتركيب وتصميم وتنفيذ
-          أفضل وأجمل مظلات وسواتر، مظلات قماش للسيارات بأرقى وأجمل التصاميم
-          والأشكال الجذابة والرائعة.
-        </strong>
-        <strong>
-          مدينة الخيام المظلات تفصيل خيام ملكي مظلات سواتر موقف سيارت مظلات
-          مدارس القصيم بريده عنيزه
-        </strong>
-      </h1>
+    <header
+      className='header-wrapper'
+      role='banner'>
       <div className='header-wrapper-background'>
         <div className='header flex-row-reverse'>
           <div className='header-logo header-logo-lc-mc mc-35 lc-25 sc-hide mc-show lc-show'>
@@ -351,18 +359,22 @@ function Header() {
           <div className='sc-10 sc-show mc-hide lc-hide'>
             <div
               className='site-menu-float-button typcn typcn-large typcn-th-menu'
-              onClick={() =>
-                (document.querySelector(".site-menu-float").style.display =
-                  "block")
-              }></div>
+              onClick={() => {
+                const floatMenu = document.querySelector(".site-menu-float");
+                if (floatMenu) {
+                  floatMenu.style.display = "block";
+                }
+              }}></div>
           </div>
           <div className='site-menu-float sc-hide mc-hide lc-hide'>
             <span
               className='typcn typcn-large typcn-delete site-menu-float-close-icon'
-              onClick={() =>
-                (document.querySelector(".site-menu-float").style.display =
-                  "none")
-              }></span>
+              onClick={() => {
+                const floatMenu = document.querySelector(".site-menu-float");
+                if (floatMenu) {
+                  floatMenu.style.display = "none";
+                }
+              }}></span>
             <ul>
               <li>
                 <Link

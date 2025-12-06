@@ -4,6 +4,7 @@ import React from "react";
 import "typicons.font";
 import "../src/index.css";
 import "../src/App.css";
+import "../src/styles/sr-only.css";
 import Header from "../src/Components/Header";
 import Footer from "../src/Components/Footer";
 import BreadCrumb from "../src/Components/BreadCrumb";
@@ -24,21 +25,61 @@ export default function RootLayout({ children }) {
       lang='ar'
       dir='rtl'>
       <head>
+        <meta charSet='utf-8' />
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1, maximum-scale=5'
+        />
         <meta
           name='description'
-          content='مظلات وسواتر وجلسات وبرجولات وخيام ملكي في القصيم بريدة عنيزة. تنفيذ وتركيب بجودة عالية وخبرة طويلة. اتصل الآن 0500173090.'
+          content='الخيام المظلات توفر أجود المظلات والسواتر والخيام الملكي في القصيم بريدة عنيزة الرس. مظلات سيارات، حدائق، مسابح، مداخل، مدارس، أسواق، مساجد. سواتر حديد، قماش، بلاستيك. جلسات وبرجولات. اتصل الآن 0500173090'
         />
         <meta
           name='keywords'
-          content='مدينة الخيام المظلات, madinatalkhayam, khayam, tents, مظلات, سواتر, جلسات, برجولات, خيام, القصيم, بريدة, عنيزة, الرس, تنفيذ, تركيب, madinat al khayam, tents in qassim'
+          content='الخيام المظلات, مدينة الخيام المظلات, مظلات, سواتر, خيام, القصيم, بريدة, عنيزة, الرس, مظلات سيارات, مظلات حدائق, مظلات مسابح, سواتر حديد, جلسات, برجولات, خيام ملكي, madinatalkhayam, khayam, tents, qassim, buraydah, unayzah'
         />
         <meta
           name='theme-color'
           content='#8e003b'
         />
+        <meta
+          name='robots'
+          content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+        />
+        <meta
+          name='googlebot'
+          content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+        />
+        <meta
+          name='language'
+          content='Arabic'
+        />
+        <meta
+          name='geo.region'
+          content='SA-05'
+        />
+        <meta
+          name='geo.placename'
+          content='القصيم'
+        />
         <link
           rel='canonical'
-          href='/'
+          href='https://madinatalkhayam.com/'
+        />
+        <link
+          rel='alternate'
+          hrefLang='ar-SA'
+          href='https://madinatalkhayam.com/'
+        />
+        <link
+          rel='alternate'
+          hrefLang='ar'
+          href='https://madinatalkhayam.com/'
+        />
+        <link
+          rel='alternate'
+          hrefLang='x-default'
+          href='https://madinatalkhayam.com/'
         />
         <meta
           property='og:locale'
@@ -54,15 +95,27 @@ export default function RootLayout({ children }) {
         />
         <meta
           property='og:title'
-          content='مدينة الخيام المظلات | مظلات وسواتر القصيم بريدة عنيزة'
+          content='الخيام المظلات | مدينة الخيام المظلات - أفضل المظلات والسواتر في القصيم بريدة عنيزة'
         />
         <meta
           property='og:description'
-          content='أفضل حلول المظلات والسواتر والبرجولات والخيام الملكي في منطقة القصيم والمدن المحيطة.'
+          content='الخيام المظلات توفر أجود المظلات والسواتر والخيام الملكي في القصيم بريدة عنيزة الرس. مظلات سيارات، حدائق، مسابح، مداخل، مدارس، أسواق، مساجد. سواتر حديد، قماش، بلاستيك. جلسات وبرجولات. اتصل الآن 0500173090'
         />
         <meta
           property='og:image'
-          content='/images/slider1.jpg'
+          content='https://madinatalkhayam.com/images/slider1.jpg'
+        />
+        <meta
+          property='og:image:width'
+          content='1200'
+        />
+        <meta
+          property='og:image:height'
+          content='630'
+        />
+        <meta
+          property='og:image:alt'
+          content='الخيام المظلات - مدينة الخيام المظلات'
         />
         <meta
           property='og:url'
@@ -74,15 +127,15 @@ export default function RootLayout({ children }) {
         />
         <meta
           name='twitter:title'
-          content='مدينة الخيام المظلات | madinatalkhayam | khayam | tents'
+          content='الخيام المظلات | مدينة الخيام المظلات - أفضل المظلات والسواتر في القصيم'
         />
         <meta
           name='twitter:description'
-          content='حلول مظلات وسواتر في القصيم والمدن المحيطة.'
+          content='الخيام المظلات توفر أجود المظلات والسواتر والخيام الملكي في القصيم بريدة عنيزة الرس. اتصل الآن 0500173090'
         />
         <meta
           name='twitter:image'
-          content='/images/slider1.jpg'
+          content='https://madinatalkhayam.com/images/slider1.jpg'
         />
         <link
           rel='stylesheet'
@@ -94,23 +147,37 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "LocalBusiness",
+              "@id": "https://madinatalkhayam.com/#business",
               name: "مدينة الخيام المظلات",
               alternateName: [
+                "الخيام المظلات",
                 "madinatalkhayam",
                 "Madinaat Al Khayam",
                 "khayam",
                 "tents",
+                "مدينة الخيام",
               ],
-              image: ["/images/slider1.jpg"],
+              description:
+                "الخيام المظلات توفر أجود المظلات والسواتر والخيام الملكي في القصيم بريدة عنيزة الرس. مظلات سيارات، حدائق، مسابح، مداخل، مدارس، أسواق، مساجد. سواتر حديد، قماش، بلاستيك. جلسات وبرجولات.",
+              image: [
+                "https://madinatalkhayam.com/images/slider1.jpg",
+                "https://madinatalkhayam.com/images/logo.jpg",
+              ],
               url: "https://madinatalkhayam.com/",
               telephone: "+966500173090",
+              priceRange: "$$",
               address: {
                 "@type": "PostalAddress",
                 addressCountry: "SA",
                 addressRegion: "القصيم",
+                addressLocality: "بريدة",
               },
               areaServed: [
-                { "@type": "AdministrativeArea", name: "القصيم" },
+                {
+                  "@type": "AdministrativeArea",
+                  name: "القصيم",
+                  "@id": "https://www.wikidata.org/wiki/Q1249255",
+                },
                 { "@type": "City", name: "بريدة" },
                 { "@type": "City", name: "عنيزة" },
                 { "@type": "City", name: "الرس" },
@@ -120,12 +187,59 @@ export default function RootLayout({ children }) {
                 latitude: 26.32,
                 longitude: 43.96,
               },
-              openingHours: "Mo-Su 08:00-22:00",
+              openingHours: ["Mo-Su 08:00-22:00"],
               sameAs: [
                 "https://madinatalkhayam.com/",
                 "https://www.instagram.com/mazlatswater/",
                 "https://www.facebook.com/share/E42VrQoFkhzNf7Fx/?mibextid=qi2Omg",
               ],
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                name: "مظلات وسواتر",
+                itemListElement: [
+                  {
+                    "@type": "OfferCatalog",
+                    name: "مظلات",
+                    itemListElement: [
+                      {
+                        "@type": "Offer",
+                        itemOffered: {
+                          "@type": "Product",
+                          name: "مظلات سيارات",
+                        },
+                      },
+                      {
+                        "@type": "Offer",
+                        itemOffered: {
+                          "@type": "Product",
+                          name: "مظلات حدائق",
+                        },
+                      },
+                      {
+                        "@type": "Offer",
+                        itemOffered: {
+                          "@type": "Product",
+                          name: "مظلات مسابح",
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    "@type": "OfferCatalog",
+                    name: "سواتر",
+                    itemListElement: [
+                      {
+                        "@type": "Offer",
+                        itemOffered: { "@type": "Product", name: "سواتر حديد" },
+                      },
+                      {
+                        "@type": "Offer",
+                        itemOffered: { "@type": "Product", name: "سواتر قماش" },
+                      },
+                    ],
+                  },
+                ],
+              },
             }),
           }}
         />
@@ -135,16 +249,49 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
+              "@id": "https://madinatalkhayam.com/#website",
               name: "مدينة الخيام المظلات",
-              alternateName: ["madinatalkhayam", "khayam", "tents"],
+              alternateName: [
+                "الخيام المظلات",
+                "madinatalkhayam",
+                "khayam",
+                "tents",
+              ],
               url: "https://madinatalkhayam.com/",
-              inLanguage: "ar",
+              inLanguage: "ar-SA",
               potentialAction: {
                 "@type": "SearchAction",
-                target:
-                  "https://madinatalkhayam.com/search?q={search_term_string}",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate:
+                    "https://madinatalkhayam.com/search?q={search_term_string}",
+                },
                 "query-input": "required name=search_term_string",
               },
+            }),
+          }}
+        />
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "@id": "https://madinatalkhayam.com/#organization",
+              name: "مدينة الخيام المظلات",
+              url: "https://madinatalkhayam.com/",
+              logo: "https://madinatalkhayam.com/images/logo.jpg",
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+966500173090",
+                contactType: "customer service",
+                areaServed: "SA",
+                availableLanguage: "Arabic",
+              },
+              sameAs: [
+                "https://www.instagram.com/mazlatswater/",
+                "https://www.facebook.com/share/E42VrQoFkhzNf7Fx/?mibextid=qi2Omg",
+              ],
             }),
           }}
         />
