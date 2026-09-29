@@ -2,50 +2,47 @@
 "use client";
 
 import React from "react";
-import styled from "styled-components";
-import Marquee from "react-marquee-slider";
+import styled, { keyframes } from "styled-components";
 
 function Ticker() {
   const messages = [
-    { text: "0590667013", link: "#" },
+    { text: "0590667013", href: "tel:0590667013" },
     {
       text: "مدينة الخيام المظلات - تفصيل خيام ملكي ومظلات وسواتر وموقف سيارات ومظلات مدارس القصيم بريده عنيزه 0500173090",
-      link: "#",
+      href: "tel:0500173090",
     },
   ];
+
+  const track = (
+    <div className='trackGroup'>
+      {messages.map((message, index) => (
+        <div
+          key={index}
+          className='textChild'>
+          <a href={message.href}>{message.text}</a>
+          <span
+            className='typcn typcn-medium typcn-link-outline'
+            aria-hidden='true'
+          />
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <TickerContainer>
       <nav
-        className='ticker flex-row text-justify'
+        className='ticker'
         aria-label='تحديثات'>
         <div
           className='tickerTitle'
           aria-hidden='true'>
           <span className='typcn typcn-large typcn-arrow-sync'></span>
         </div>
-        <div className='ticker-text lc-112'>
-          <div className='marquee-inner-container'>
-            <Marquee
-              velocity={20}
-              minScale={0.7}
-              resetAfterTries={200}>
-              {messages.map((message, index) => (
-                <div
-                  key={index}
-                  className='textChild'>
-                  <div className='textDirection'>
-                    <a
-                      href={message.link}
-                      aria-label={message.text}>
-                      {message.text}
-                    </a>
-                    <span className='typcn typcn-medium typcn-link-outline'></span>
-                    &nbsp;&nbsp;
-                  </div>
-                </div>
-              ))}
-            </Marquee>
+        <div className='ticker-text'>
+          <div className='marquee'>
+            {track}
+            {track}
           </div>
         </div>
       </nav>
@@ -54,6 +51,15 @@ function Ticker() {
 }
 
 export default Ticker;
+
+const scroll = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+`;
 
 const TickerContainer = styled.div`
   position: fixed;
@@ -77,6 +83,7 @@ const TickerContainer = styled.div`
       color: #ffffff;
       padding: 4px 25px;
       cursor: pointer;
+      flex-shrink: 0;
 
       span {
         transition: transform 0.6s ease-in-out;
@@ -87,82 +94,75 @@ const TickerContainer = styled.div`
         font-size: 24px !important;
       }
 
-      .typcn::before {
-        font-family: "typicons";
-        font-style: normal;
-        font-weight: normal;
-        speak: none;
-        display: inline-block;
-        text-decoration: inherit;
-        width: 1em;
-        height: 1em;
-        font-size: 1em;
-        text-align: center;
-        -webkit-font-smoothing: antialiased;
-        font-smoothing: antialiased;
-        text-rendering: optimizeLegibility;
-      }
-
-      &:hover {
-        span {
-          transform: rotate(360deg);
-        }
+      &:hover span {
+        transform: rotate(360deg);
       }
     }
 
     .ticker-text {
       background-color: #fafafa;
-      direction: ltr;
       color: #8e003b;
       flex-grow: 1;
       overflow: hidden;
-      display: flex;
-      align-items: center;
+      min-width: 0;
 
-      .marquee-inner-container {
-        padding: 7px 5px 0 5px;
-        max-height: 30px;
-        overflow: hidden;
+      .marquee {
+        display: flex;
+        width: max-content;
+        animation: ${scroll} 35s linear infinite;
+        padding: 7px 0;
+
+        &:hover {
+          animation-play-state: paused;
+        }
+      }
+
+      .trackGroup {
+        display: flex;
+        flex-shrink: 0;
+      }
+
+      .textChild {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         white-space: nowrap;
+        padding-inline: 2rem;
+        direction: rtl;
 
-        .textChild {
-          display: inline-block;
-          white-space: nowrap;
-          padding-right: 50px;
+        a {
+          color: #8e003b;
+          text-decoration: none;
 
-          .textDirection {
-            direction: rtl;
-
-            a {
-              color: #8e003b;
-              text-decoration: none;
-              &:hover {
-                text-decoration: underline;
-              }
-            }
-
-            .typcn-medium {
-              font-size: 18px !important;
-            }
+          &:hover {
+            text-decoration: underline;
           }
+        }
+
+        .typcn-medium {
+          font-size: 18px !important;
         }
       }
     }
   }
 
-  .text-justify {
-    text-align: justify;
-  }
-
-  .flex-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-  }
-
   @media (max-width: 600px) {
     .ticker {
       max-width: 97%;
+    }
+
+    .ticker .tickerTitle {
+      padding: 4px 14px;
+    }
+
+    .ticker .ticker-text .marquee {
+      animation-duration: 28s;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker .ticker-text .marquee {
+      animation: none;
     }
   }
 `;

@@ -1,9 +1,10 @@
 /** @format */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 // Mapping of path segments to Arabic values
 const pathToArabicMap = {
@@ -42,20 +43,20 @@ const pathToArabicMap = {
   manatiqalsueudia: "مظلات مناطق السعودية",
   aitasilbina: "اتصل بنا",
   wasawatirfialriyad: "مظلات وسواتر في القصيم بريده عنيزه",
+  wasawatirfialqasim: "مظلات وسواتر في القصيم بريده عنيزه",
   product: "المنتج",
+  admin: "لوحة التحكم",
 };
 
 function BreadCrumb() {
   const pathname = usePathname();
-  const [breadcrumbs, setBreadcrumbs] = useState([]);
 
-  useEffect(() => {
+  const breadcrumbs = useMemo(() => {
     const paths = (pathname || "/").split("/").filter(Boolean);
-    const breadcrumbPaths = paths.map((path, index) => ({
+    return paths.map((path, index) => ({
       name: pathToArabicMap[path] || decodeURIComponent(path),
       href: "/" + paths.slice(0, index + 1).join("/"),
     }));
-    setBreadcrumbs(breadcrumbPaths);
   }, [pathname]);
 
   if (!pathname || pathname === "/") {
@@ -63,17 +64,17 @@ function BreadCrumb() {
   }
 
   return (
-    <BreadcrumbContainer>
+    <BreadcrumbContainer className='notranslate' translate='no'>
       <nav
         aria-label='Breadcrumb'
         role='navigation'>
         <BreadcrumbItem
           href='/'
-          aria-current='page'>
+          aria-current={breadcrumbs.length === 0 ? "page" : undefined}>
           {pathToArabicMap[""]}
         </BreadcrumbItem>
         {breadcrumbs.map((crumb, index) => (
-          <React.Fragment key={index}>
+          <React.Fragment key={crumb.href}>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
             <BreadcrumbItem
               href={crumb.href}
@@ -108,7 +109,7 @@ const BreadcrumbContainer = styled.div`
   }
 `;
 
-const BreadcrumbItem = styled.a`
+const BreadcrumbItem = styled(Link)`
   text-decoration: none;
   color: #8e003b;
   font-weight: 700;
@@ -123,6 +124,7 @@ const BreadcrumbItem = styled.a`
     color: #333;
     cursor: default;
     text-decoration: none;
+    pointer-events: none;
   }
 
   @media (max-width: 768px) {

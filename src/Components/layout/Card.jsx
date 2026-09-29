@@ -1,4 +1,5 @@
 /** @format */
+"use client";
 
 import React from "react";
 import { useRouter } from "next/navigation";
@@ -6,13 +7,14 @@ import styled from "styled-components";
 
 function CardComponent({ item, hideImage = false }) {
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
-  const textToShare = encodeURIComponent(item.cardTitle);
+  const textToShare = encodeURIComponent(item.cardTitle || "");
   const urlToShare = encodeURIComponent(currentUrl);
   const router = useRouter();
 
   const handleClick = () => {
     router.push(`/product/${item.id}`);
   };
+
   const handleShare = (platform) => {
     let shareUrl = "";
 
@@ -27,7 +29,6 @@ function CardComponent({ item, hideImage = false }) {
         shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${urlToShare}`;
         break;
       case "instagram":
-        // Instagram doesn't support direct URL sharing. You can customize the behavior here.
         alert(
           "Instagram does not support direct URL sharing. Please share via the app."
         );
@@ -47,22 +48,30 @@ function CardComponent({ item, hideImage = false }) {
             <div className='imageWrapper'>
               <img
                 src={item.cardImage}
-                alt={item.cardSpan}
+                alt={item.cardSpan || item.cardTitle || ""}
                 loading='lazy'
               />
+              <div className='imageOverlay' />
             </div>
-            <div className='cardTitle'>
-              <span>{item.cardSpan}</span>
-            </div>
+            {item.cardSpan ? (
+              <div className='cardTitle'>
+                <span>{item.cardSpan}</span>
+              </div>
+            ) : null}
           </>
         ) : null}
         <div className='titleContent'>
           <div className='titleIcon'>
             <div
               className='titleShare typcn typcn-export-outline'
-              aria-label='share'></div>
+              aria-label='share'
+              role='button'
+              tabIndex={0}
+              onClick={(e) => e.stopPropagation()}
+            />
             <div className='dropDownContent'>
               <button
+                type='button'
                 onClick={(e) => {
                   e.stopPropagation();
                   handleShare("facebook");
@@ -79,6 +88,7 @@ function CardComponent({ item, hideImage = false }) {
                 </svg>
               </button>
               <button
+                type='button'
                 onClick={(e) => {
                   e.stopPropagation();
                   handleShare("twitter");
@@ -95,6 +105,7 @@ function CardComponent({ item, hideImage = false }) {
                 </svg>
               </button>
               <button
+                type='button'
                 onClick={(e) => {
                   e.stopPropagation();
                   handleShare("linkedin");
@@ -111,6 +122,7 @@ function CardComponent({ item, hideImage = false }) {
                 </svg>
               </button>
               <button
+                type='button'
                 onClick={(e) => {
                   e.stopPropagation();
                   handleShare("instagram");
@@ -144,45 +156,83 @@ export default CardComponent;
 const CardContainer = styled.div`
   cursor: pointer;
   width: 100%;
+  padding: 0 0.5%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+
+  &:hover,
+  &:focus-within {
+    z-index: 50;
+  }
 
   .cardContent {
-    max-width: 97%;
+    max-width: 100%;
     margin: 0 0 3% 0;
     height: fit-content;
-    background: #ffffff !important;
-    box-shadow: 0px 0px 5px #969696;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    overflow: visible;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
     line-height: 1.4;
-    transition: box-shadow 0.5s;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+  }
+
+  &:hover .cardContent,
+  &:focus-within .cardContent {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(142, 0, 59, 0.14);
   }
 
   .imageWrapper {
     position: relative;
     overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background: #f3f3f3;
+    border-radius: 14px 14px 0 0;
 
     img {
       width: 100%;
-      height: 200px;
+      height: 100%;
       vertical-align: bottom;
-      transition: transform 0.5s ease, opacity 0.5s ease;
+      transition: transform 0.45s ease;
       object-fit: cover;
+    }
+
+    .imageOverlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.45) 0%,
+        transparent 55%
+      );
+      pointer-events: none;
     }
   }
 
   .cardTitle {
-    padding: 10px 1.5% 10px 1.5%;
-    height: 40px;
+    padding: 8px 12px;
+    min-height: 36px;
     z-index: 3;
     position: relative;
     color: #fff;
     margin-top: -40px;
-    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
 
     span {
       display: inline-block;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      max-width: 80%;
+      max-width: 85%;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
     }
   }
 
@@ -190,105 +240,121 @@ const CardContainer = styled.div`
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 4px 4px 8px;
 
     .titleIcon {
       font-size: 1.5em;
       position: relative;
-      padding: 0 5px;
-      opacity: 0.9;
-      z-index: 5;
+      padding: 0 8px;
+      opacity: 0.95;
+      z-index: 20;
       text-align: center;
-      height: 40px;
-      margin-top: -60px;
+      height: auto;
+      margin-top: -52px;
+      overflow: visible;
 
       .titleShare {
         cursor: pointer;
         margin: 0;
         color: #fff;
-        text-shadow: 1px 1px #000;
-        margin-top: 1em;
         width: 36px;
         height: 36px;
         border-radius: 50%;
-        background: rgba(0, 0, 0, 0.35);
+        background: rgba(142, 0, 59, 0.92);
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       }
 
       &:hover .dropDownContent,
-      .dropDownContent:hover {
+      .dropDownContent:hover,
+      &:focus-within .dropDownContent {
         visibility: visible;
         opacity: 1;
+        pointer-events: auto;
       }
 
       .dropDownContent {
-        width: 50px;
+        width: 44px;
         visibility: hidden;
         opacity: 0;
+        pointer-events: none;
         position: absolute;
-        top: 60px;
-        right: -7px;
-        background-color: #f0f0f0;
-        border: 1px #969696 solid;
-        border-radius: 6px;
-        transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+        bottom: calc(100% + 8px);
+        top: auto;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        background-color: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+        transition: opacity 0.2s ease, visibility 0.2s ease;
         display: flex;
         flex-direction: column;
+        align-items: center;
+        padding: 6px 0;
+        z-index: 100;
+        overflow: visible;
 
         button {
           all: unset;
           cursor: pointer;
-          padding: 4px;
+          padding: 6px;
           display: flex;
           align-items: center;
           justify-content: center;
+          box-sizing: border-box;
         }
 
         .socialicon {
-          height: 24px;
-          width: 24px;
-          margin: 5px 5px;
-          transition: transform 0.6s ease-in-out, color 0.2s ease-in-out;
+          height: 22px;
+          width: 22px;
+          margin: 0;
+          transition: transform 0.25s ease, color 0.2s ease;
           display: block;
-          color: #333;
+          color: #444;
         }
 
         .socialicon:hover {
-          transform: rotate(360deg);
-          color: #000;
+          transform: scale(1.12);
+          color: #8e003b;
         }
       }
     }
 
     .title {
-      color: #000000;
-      padding: 10px;
-      height: 60px;
-      text-align: justify;
+      color: #1a1a1a;
+      padding: 10px 12px 12px;
+      min-height: 56px;
+      flex: 1;
+      text-align: right;
 
       h2 {
         padding: 0;
         margin: 0;
-        font-size: inherit;
-        line-height: 1.3;
-        max-height: calc(1.3em * 2);
+        font-size: 0.98rem;
+        line-height: 1.45;
+        max-height: calc(1.45em * 2);
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 2; /* number of lines to show */
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         word-break: break-word;
+        font-weight: 700;
       }
     }
   }
 
   :hover .imageWrapper img {
-    transform: scale(1.1);
+    transform: scale(1.06);
   }
 
   @media (min-width: 900px) {
-    width: 33.3%;
+    width: 33.333%;
     display: inline-grid;
   }
 
@@ -298,8 +364,22 @@ const CardContainer = styled.div`
   }
 
   @media (max-width: 600px) {
+    width: 100%;
+    padding: 0;
+    display: block;
+
     .cardContent {
-      max-width: 100%;
+      margin-bottom: 14px;
+      border-radius: 12px;
+    }
+
+    .imageWrapper {
+      border-radius: 12px 12px 0 0;
+    }
+
+    .title .h2,
+    .title h2 {
+      font-size: 0.95rem;
     }
   }
 `;

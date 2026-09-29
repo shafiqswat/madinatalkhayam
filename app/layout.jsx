@@ -23,7 +23,9 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang='ar'
-      dir='rtl'>
+      dir='rtl'
+      translate='no'
+      className='notranslate'>
       <head>
         <meta charSet='utf-8' />
         <meta
@@ -323,7 +325,7 @@ export default function RootLayout({ children }) {
 }
 
 const DashboardContainer = styled.div`
-  overflow: hidden;
+  overflow: visible;
   background-color: #f0f0f0;
 `;
 
@@ -333,6 +335,7 @@ const ContentArea = styled.main`
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding-bottom: 56px;
+  overflow: visible;
 `;
 
 const FullWidthMap = styled.div`

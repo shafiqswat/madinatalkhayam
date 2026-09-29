@@ -3,9 +3,9 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import SearchComponent from "./Search";
+import BrandLogo from "./BrandLogo";
 
 function Header() {
   const pathname = usePathname();
@@ -120,32 +120,16 @@ function Header() {
   }, []);
   return (
     <header
-      className='header-wrapper'
+      className='header-wrapper notranslate'
+      translate='no'
       role='banner'>
       <div className='header-wrapper-background'>
         <div className='header flex-row-reverse'>
           <div className='header-logo header-logo-lc-mc mc-35 lc-25 sc-hide mc-show lc-show'>
-            <Link href='/'>
-              <Image
-                id='image-lc'
-                src='/images/logo.jpg'
-                alt='logo'
-                width={320}
-                height={80}
-                priority
-              />
-            </Link>
+            <BrandLogo />
           </div>
           <div className='header-logo sc-120 sc-show mc-hide lc-hide'>
-            <Link href='/'>
-              <Image
-                id='image-sc'
-                src='/images/logo.jpg'
-                alt='القصيم بريده عنيزه  - سواتر الرياض'
-                width={320}
-                height={80}
-              />
-            </Link>
+            <BrandLogo compact />
           </div>
           <nav
             className='site-menu sc-120 mc-85 lc-95 sc-hide mc-show lc-show site-menu-prevent-overflow-onload'
@@ -558,62 +542,86 @@ function Header() {
             </ul>
           </div>
           {/* end header mobile menu */}
-          <div className='sc-110 mc-80 lc-80 flex-row-reverse'>
-            <span className='flex-row-reverse'>
+          <div className='sc-110 mc-80 lc-80 flex-row-reverse' style={{ alignItems: "center", justifyContent: "flex-start", gap: "8px" }}>
+            <a
+              className='header-cta sc-hide mc-show lc-show'
+              href='https://wa.me/966500173090'
+              target='_blank'
+              rel='noopener noreferrer'>
+              واتساب
+            </a>
+            <span className='header-socials flex-row-reverse'>
               <a
                 href='https://www.instagram.com/mazlatswater/'
-                target='blank'>
-                <img
-                  src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAQMAAAC3/F3+AAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjwAsAAB4AAdpxxYoAAAAASUVORK5CYII='
-                  alt='instagram'
-                  className='socialicon socialicon-instagram'
-                />
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label='Instagram'>
+                <svg viewBox='0 0 24 24' aria-hidden='true'>
+                  <path
+                    fill='currentColor'
+                    d='M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm5.75-.75a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z'
+                  />
+                </svg>
               </a>
-
               <a
                 href='https://www.facebook.com/share/E42VrQoFkhzNf7Fx/?mibextid=qi2Omg'
-                target='_blank'>
-                <img
-                  src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAQMAAAC3/F3+AAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjwAsAAB4AAdpxxYoAAAAASUVORK5CYII='
-                  alt='facebook'
-                  className='socialicon socialicon-facebook'
-                />
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label='Facebook'>
+                <svg viewBox='0 0 24 24' aria-hidden='true'>
+                  <path
+                    fill='currentColor'
+                    d='M22 12.07C22 6.48 17.52 2 11.93 2S1.86 6.48 1.86 12.07c0 5 3.66 9.14 8.44 9.93v-7.02H7.91v-2.91h2.39V9.41c0-2.36 1.4-3.66 3.55-3.66 1.03 0 2.12.18 2.12.18v2.33h-1.2c-1.18 0-1.55.73-1.55 1.48v1.77h2.64l-.42 2.91h-2.22V22c4.78-.79 8.44-4.93 8.44-9.93Z'
+                  />
+                </svg>
               </a>
               <a
                 href='https://x.com/badshazada73090?t=Q5G6bA1rCmNqmWLVfPht8g&s=09'
-                target='_blank'>
-                <img
-                  src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAQMAAAC3/F3+AAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjwAsAAB4AAdpxxYoAAAAASUVORK5CYII='
-                  alt='twitter'
-                  className='socialicon socialicon-twitter'
-                />
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label='X'>
+                <svg viewBox='0 0 24 24' aria-hidden='true'>
+                  <path
+                    fill='currentColor'
+                    d='M18.9 2H21l-6.56 7.5L22 22h-6.2l-4.86-6.35L5.7 22H3.6l7.02-8.02L2 2h6.36l4.4 5.84L18.9 2Zm-1.1 18h1.72L6.3 3.9H4.46L17.8 20Z'
+                  />
+                </svg>
               </a>
               <a
                 href='https://wa.me/966500173090'
-                target='_blank'>
-                <img
-                  src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAQMAAAC3/F3+AAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjwAsAAB4AAdpxxYoAAAAASUVORK5CYII='
-                  alt='twitter'
-                  className='socialicon socialicon-whatsapp'
-                />
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label='WhatsApp'>
+                <svg viewBox='0 0 24 24' aria-hidden='true'>
+                  <path
+                    fill='currentColor'
+                    d='M17.47 14.38c-.28-.14-1.65-.81-1.9-.9-.26-.1-.44-.14-.63.14-.18.27-.72.9-.88 1.08-.16.18-.33.2-.6.07-.28-.14-1.17-.43-2.23-1.37-.82-.73-1.38-1.64-1.54-1.91-.16-.27-.02-.42.12-.55.13-.13.28-.33.42-.5.14-.16.18-.28.28-.46.09-.19.05-.35-.02-.49-.07-.14-.63-1.51-.86-2.07-.23-.55-.46-.47-.63-.48h-.54c-.19 0-.49.07-.75.35-.26.27-1 1-1 2.43s1.02 2.82 1.16 3.01c.14.19 2.01 3.07 4.87 4.31.68.29 1.21.47 1.62.6.68.21 1.3.18 1.79.11.55-.08 1.65-.67 1.88-1.32.23-.65.23-1.2.16-1.32-.07-.11-.25-.18-.53-.32ZM12.05 21.8h-.01a9.78 9.78 0 0 1-4.98-1.36l-.36-.21-3.7.97 1-3.61-.24-.37a9.78 9.78 0 0 1-1.5-5.22 9.82 9.82 0 0 1 9.8-9.8c2.62.01 5.08 1.02 6.93 2.87a9.74 9.74 0 0 1 2.87 6.93 9.82 9.82 0 0 1-9.8 9.8Z'
+                  />
+                </svg>
               </a>
               <a
                 href='https://www.tiktok.com/@sameirbadshakhan35?_t=8ndRCeRzc4z&_r=1'
-                target='blank'>
-                <img
-                  src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAQMAAAC3/F3+AAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjwAsAAB4AAdpxxYoAAAAASUVORK5CYII='
-                  alt='youtube'
-                  className='socialicon socialicon-youtube'
-                />
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label='TikTok'>
+                <svg viewBox='0 0 24 24' aria-hidden='true'>
+                  <path
+                    fill='currentColor'
+                    d='M14.5 3c.4 2.4 1.9 4.1 4.2 4.4v2.3c-1.45-.05-2.76-.5-3.9-1.3v6.7a5.7 5.7 0 1 1-5.7-5.7c.3 0 .6.03.9.08v2.45a3.25 3.25 0 1 0 2.35 3.12V3h2.15Z'
+                  />
+                </svg>
               </a>
               <a
                 href='https://www.linkedin.com/in/muhammad-shafiq-419a4327b/'
-                target='blank'>
-                <img
-                  src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAQMAAAC3/F3+AAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjwAsAAB4AAdpxxYoAAAAASUVORK5CYII='
-                  alt='linkedin'
-                  className='socialicon socialicon-linkedin'
-                />
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label='LinkedIn'>
+                <svg viewBox='0 0 24 24' aria-hidden='true'>
+                  <path
+                    fill='currentColor'
+                    d='M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.5 8h4V23h-4V8Zm7 0h3.83v2.05h.05c.53-1 1.82-2.05 3.74-2.05 4 0 4.74 2.63 4.74 6.06V23h-4v-7.03c0-1.68-.03-3.84-2.34-3.84-2.34 0-2.7 1.83-2.7 3.72V23h-4V8Z'
+                  />
+                </svg>
               </a>
             </span>
           </div>

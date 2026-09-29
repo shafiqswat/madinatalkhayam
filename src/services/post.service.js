@@ -13,6 +13,7 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
+import { getCurrentUser, isOwner } from "./user.service";
 
 const POSTS_COLLECTION = "posts";
 
@@ -23,7 +24,17 @@ const getPostsCollection = () => {
   return collection(firestore, POSTS_COLLECTION);
 };
 
+const assertOwner = () => {
+  const user = getCurrentUser();
+  if (!isOwner(user)) {
+    const error = new Error("غير مصرح: يجب تسجيل دخول المالك");
+    error.code = "auth/not-owner";
+    throw error;
+  }
+};
+
 export const createPost = async (post) => {
+  assertOwner();
   const payload = {
     title: post.title || "",
     span: post.span || "",
@@ -53,6 +64,7 @@ export const getPost = async (id) => {
 };
 
 export const updatePost = async (id, updates) => {
+  assertOwner();
   if (!firestore)
     throw new Error("Firestore is not available in this environment");
   const ref = doc(firestore, POSTS_COLLECTION, id);
@@ -62,6 +74,7 @@ export const updatePost = async (id, updates) => {
 };
 
 export const deletePostById = async (id) => {
+  assertOwner();
   if (!firestore)
     throw new Error("Firestore is not available in this environment");
   const ref = doc(firestore, POSTS_COLLECTION, id);

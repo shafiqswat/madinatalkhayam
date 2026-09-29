@@ -1,4 +1,6 @@
 /** @format */
+"use client";
+
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useSearch } from "./context/SearchContext";
@@ -9,7 +11,7 @@ const SearchComponent = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault(); // Prevent form submission
+      e.preventDefault();
       if (query && query.trim() !== "") {
         router.push(`/search?q=${encodeURIComponent(query)}`);
       }
@@ -17,11 +19,15 @@ const SearchComponent = () => {
   };
 
   return (
-    <div>
+    <div className='search-wrap'>
       <form
         method='get'
         id='searchForm'
         onSubmit={(e) => e.preventDefault()}>
+        <span
+          className='search-icon typcn typcn-zoom'
+          aria-hidden='true'
+        />
         <input
           type='hidden'
           name='app'
@@ -31,12 +37,12 @@ const SearchComponent = () => {
           type='text'
           className='search-form'
           name='q'
-          placeholder='بحث : الكلمات المفتاحية #الهاش_تاج'
+          placeholder='ابحث عن مظلات، سواتر، خيام...'
           pattern='.{2,}'
           required
           value={query}
           onChange={handleInputChange}
-          onKeyDown={handleKeyDown} // Trigger navigation on Enter
+          onKeyDown={handleKeyDown}
         />
       </form>
     </div>
